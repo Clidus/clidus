@@ -18,24 +18,31 @@
 {% block title %}{% parent %} - Homepage{% endblock %}
 
 {% block content %}
+<div class="row">
+  {# The first thing we do is call blog data from the CMS. #}
+  {% set data = cms.blog %}
 
-  <h1>Hello world!</h1>
+  {# Next we sort the data by publish_date. The true bit reverses it so it's newest first. Learn more: #}
+  {# http://www.webhook.com/docs/template-rules-and-filters/#sortproperty_reverseorder #}
+  {% set data = data|sort('publish_date', true) %}
 
-  <p>This is your homepage, located at /pages/index.html.</p>
+  {# This is how you set pagination. It's always important to do this after your sort. #}
+  {% set data = paginate(data, 3) %}
 
-  <p><a href="/cms/">Looking for the CMS?</a></p>
+  {# This forloop can use any data from http:localhost:2000/cms/#/form/blog/ #}
+    {% for object in data %}
+      <h2><a href="{{ url(object) }}">{{ object.name }}</a></h2>
 
-  {# If you have at least content page type, we show a list. #}
-  {% if cms_types|size !== 0 %}
+      <div>
+      {{ object.body|safe }}
+      </div>
 
-    <h3>Content types you've created in the CMS so far.</h3>
-
-    <ul>
-    {% for type in cms_types %}
-      <li><a href="{{ url(type) }}">{{ type.name }}</a></li>
+      <div>
+        <p class="blog-footer">Published {{ object.publish_date|date('jS F, Y.') }}</p>
+      </div>
     {% endfor %}
-    </ul>
 
-  {% endif %}
-
+  {# The actual pagination template, feel free to edit or replace the default one. #}
+  {% include "templates/partials/paginator.html" %}
+</div>
 {% endblock %}
