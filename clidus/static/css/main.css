@@ -1,4 +1,17 @@
 body {
   padding: 40px;
   max-width: 1000px;
+  background: url('/static/images/background.png') repeat;
+}
+
+.logo {
+
+}
+
+.logo-icon {
+	float: left;
+}
+
+.logo-text {
+	float: right;
 }
