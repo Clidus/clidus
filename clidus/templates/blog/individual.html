@@ -13,22 +13,21 @@
 {% block title %}{% parent %} - {{ item.name }}{% endblock %}
 {% block content %}
 <div class="row">
-    <h2>{{ item.name }}</h2>
+    <h1>{{ item.name }}</h2>
 
     <div>
       {{ item.body|safe }}
     </div>
 
     <div>
+      {# Relationship. Note that use the label you set for the relation, not the content-type name. #}
+      {% for relation in item.tags %}
+        {% if loop.first %}<strong>Tags: </strong>{% endif %}
+        {# You can ouput more than just the name. Feel free to output more fields from the CMS. #}
+        <a href="{{ url(relation) }}">{{ relation.name }}</a>{% if not loop.last %},{% endif %}
+      {% endfor %}
       <p class="blog-footer">Published {{ item.publish_date|date('jS F, Y.') }}</p>
     </div>
-
-    <strong>Tags: </strong>
-    {# Relationship. Note that use the label you set for the relation, not the content-type name. #}
-    {% for relation in item.tags %}
-      {# You can ouput more than just the name. Feel free to output more fields from the CMS. #}
-      <a href="{{ url(relation) }}">{{ relation.name }}</a>{% if not loop.last %},{% endif %}
-    {% endfor %}
 
 </div>
 {% endblock %}

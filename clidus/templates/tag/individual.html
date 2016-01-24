@@ -12,27 +12,37 @@
 {# This sets our page <title>. It will append this tag's name to the site title defined in base.html #}
 {% block title %}{% parent %} - {{ item.name }}{% endblock %}
 {% block content %}
-  <p><a href="{{ url('tag') }}">View a list of all tag</a></p>
   <h1>{{ item.name }}</h1>
-  <ul>
-      <li>
-        <strong>Name: </strong>
-        {{ item.name }}
-      </li>
-      <li>
-        <strong>Create Date: </strong>
-        {# Format the date. You can use PHP's date function to format as needed. http://php.net/manual/en/function.date.php #}
-        {{ item.create_date|date('F d Y') }}
-      </li>
-      <li>
-        <strong>Last Updated: </strong>
-        {# Format the date. You can use PHP's date function to format as needed. http://php.net/manual/en/function.date.php #}
-        {{ item.last_updated|date('F d Y') }}
-      </li>
-      <li>
-        <strong>Publish Date: </strong>
-        {# Format the date. You can use PHP's date function to format as needed. http://php.net/manual/en/function.date.php #}
-        {{ item.publish_date|date('F d Y') }}
-      </li>
-  </ul>
+
+  {% set data = item.blogs %}
+
+  {# Next we sort the data by publish_date. The true bit reverses it so it's newest first. Learn more: #}
+  {# http://www.webhook.com/docs/template-rules-and-filters/#sortproperty_reverseorder #}
+  {% set data = data|sort('publish_date', true) %}
+
+  {# This is how you set pagination. It's always important to do this after your sort. #}
+  {% set data = paginate(data, 5) %}
+
+  {# Relationship. Note that use the label you set for the relation, not the content-type name. #}
+    {% for relation in data %}
+      {# You can ouput more than just the name. Feel free to output more fields from the CMS. #}
+        <h2><a href="{{ url(relation) }}">{{ relation.name }}</a></h2>
+
+        <div>
+        {{ relation.body|safe }}
+        </div>
+
+        <div>
+          {# Relationship. Note that use the label you set for the relation, not the content-type name. #}
+          {% for relation in relation.tags %}
+            {% if loop.first %}<strong>Tags: </strong>{% endif %}
+            {# You can ouput more than just the name. Feel free to output more fields from the CMS. #}
+            <a href="{{ url(relation) }}">{{ relation.name }}</a>{% if not loop.last %},{% endif %}
+          {% endfor %}
+          <p class="blog-footer">Published {{ object.publish_date|date('jS F, Y.') }}</p>
+        </div>
+    {% endfor %}
+
+    {# The actual pagination template, feel free to edit or replace the default one. #}
+    {% include "templates/partials/paginator.html" %}
 {% endblock %}

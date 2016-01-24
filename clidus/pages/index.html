@@ -38,6 +38,12 @@
       </div>
 
       <div>
+        {# Relationship. Note that use the label you set for the relation, not the content-type name. #}
+        {% for relation in object.tags %}
+          {% if loop.first %}<strong>Tags: </strong>{% endif %}
+          {# You can ouput more than just the name. Feel free to output more fields from the CMS. #}
+          <a href="{{ url(relation) }}">{{ relation.name }}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
         <p class="blog-footer">Published {{ object.publish_date|date('jS F, Y.') }}</p>
       </div>
     {% endfor %}
