@@ -27,14 +27,14 @@
       {{ item.body|safe }}
     </div>
 
-    <div>
+    <div class="blog-footer">
       {# Relationship. Note that use the label you set for the relation, not the content-type name. #}
       {% for relation in item.tags %}
-        {% if loop.first %}<strong>Tags: </strong>{% endif %}
+        {% if loop.first %}Tags:{% endif %}
         {# You can ouput more than just the name. Feel free to output more fields from the CMS. #}
         <a href="{{ url(relation) }}">{{ relation.name }}</a>{% if not loop.last %},{% endif %}
       {% endfor %}
-      <p class="blog-footer">Published {{ item.publish_date|date('jS F, Y.') }}</p>
+      <p>Published {{ item.publish_date|date('jS F, Y.') }}</p>
     </div>
 </div>
 {% endblock %}
