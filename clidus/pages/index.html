@@ -17,6 +17,10 @@
 {# This sets our page <title>. It will append "- Homepage" to the site title defined in base. #}
 {% block title %}{% parent %} - Homepage{% endblock %}
 
+{% block head_extra %}
+<meta name="description" content="{% block description %}{{ site_description|default('Built with Webhook.') }}{% endblock %}">
+{% endblock %}
+
 {% block content %}
 <div class="row">
   {# The first thing we do is call blog data from the CMS. #}
