@@ -65,6 +65,11 @@ body {
 	text-align: right;
 }
 
+figure[data-type=quote] {
+	border-left: none;
+	margin-left: 0px;
+}
+
 footer {
     background-color: #5272b0;
     position: absolute;
