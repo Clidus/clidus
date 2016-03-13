@@ -21,7 +21,7 @@
   {% set data = data|sort('publish_date', true) %}
 
   {# This is how you set pagination. It's always important to do this after your sort. #}
-  {% set data = paginate(data, 5) %}
+  {% set data = paginate(data, 10) %}
 
   {# Relationship. Note that use the label you set for the relation, not the content-type name. #}
     {% for relation in data %}
