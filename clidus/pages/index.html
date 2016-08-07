@@ -31,7 +31,7 @@
   {% set data = data|sort('publish_date', true) %}
 
   {# This is how you set pagination. It's always important to do this after your sort. #}
-  {% set data = paginate(data, 10) %}
+  {% set data = paginate(data, 5) %}
 
   {# This forloop can use any data from http:localhost:2000/cms/#/form/blog/ #}
     {% for object in data %}
