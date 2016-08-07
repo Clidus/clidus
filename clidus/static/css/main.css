@@ -22,6 +22,13 @@ body {
 	max-width: 100%;
 }
 
+.tag-line {
+	text-align: center;
+	font-size: 20px;
+	margin-bottom: 20px;
+	font-style: italic;
+}
+
 @media (min-width: 768px) {
 	.logo-text {
 		margin-top: 100px;
@@ -57,6 +64,10 @@ body {
 
 .menu a:hover {
 	text-decoration: underline;
+}
+
+.sub-menu {
+	font-size: 18px;
 }
 
 .blog-footer {
